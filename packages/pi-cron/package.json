@@ -1,0 +1,43 @@
+{
+  "name": "@fingerskier/pi-cron",
+  "version": "2026.2.7",
+  "description": "Cron scheduler plugin for Pi, bridged from the legacy dex-claude-plugin MCP server",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "cron",
+    "scheduler",
+    "automation",
+    "mcp"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/cron.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "files": [
+    "extensions",
+    "skills",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node ../../scripts/validate-package.mjs .",
+    "lint": "pnpm run build",
+    "clean": "node ../../scripts/clean-package.mjs ."
+  },
+  "dependencies": {
+    "@fingerskier/pi-shared": "workspace:*"
+  }
+}

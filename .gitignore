@@ -2,11 +2,13 @@ node_modules/
 .pi/
 *.tgz
 npm-debug.log*
+pnpm-debug.log*
 .DS_Store
 cad-output/
 .pytest_cache/
 __pycache__/
 *.pyc
-plugins/*/node_modules/
-plugins/*/.venv/
-plugins/*/dist/*.tsbuildinfo
+packages/*/node_modules/
+packages/*/.venv/
+packages/shared/dist/
+.tsbuildinfo/

@@ -34,6 +34,7 @@
             "required": ["install", "resources"],
             "properties": {
               "install": { "type": "string" },
+              "localInstall": { "type": "string" },
               "resources": { "type": "array", "items": { "enum": ["extension", "skill", "prompt", "theme"] } },
               "toolPrefix": { "type": "string" }
             },

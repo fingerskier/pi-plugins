@@ -1,0 +1,43 @@
+{
+  "name": "@fingerskier/pi-mozart",
+  "version": "2026.2.15",
+  "description": "Mozart MIDI plugin for Pi, bridged from mozart-claude-plugin MCP",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "midi",
+    "music",
+    "composition",
+    "mcp"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/mozart.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "files": [
+    "extensions",
+    "skills",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node ../../scripts/validate-package.mjs .",
+    "lint": "pnpm run build",
+    "clean": "node ../../scripts/clean-package.mjs ."
+  },
+  "dependencies": {
+    "@fingerskier/pi-shared": "workspace:*"
+  }
+}

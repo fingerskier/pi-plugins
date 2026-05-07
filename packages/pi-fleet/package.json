@@ -1,0 +1,43 @@
+{
+  "name": "@fingerskier/pi-fleet",
+  "version": "1.0.0",
+  "description": "Fleet AWS monitor plugin for Pi, bridged from fleet-claude-plugin MCP",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "aws",
+    "fleet",
+    "cloud",
+    "mcp"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/fleet.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "files": [
+    "extensions",
+    "skills",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node ../../scripts/validate-package.mjs .",
+    "lint": "pnpm run build",
+    "clean": "node ../../scripts/clean-package.mjs ."
+  },
+  "dependencies": {
+    "@fingerskier/pi-shared": "workspace:*"
+  }
+}

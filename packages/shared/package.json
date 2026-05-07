@@ -1,0 +1,45 @@
+{
+  "name": "@fingerskier/pi-shared",
+  "version": "2026.5.7",
+  "description": "Shared utilities for Fingerskier Pi packages",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/mcp-stdio.d.ts",
+      "default": "./dist/mcp-stdio.js"
+    },
+    "./mcp-stdio": {
+      "types": "./dist/mcp-stdio.d.ts",
+      "default": "./dist/mcp-stdio.js"
+    }
+  },
+  "main": "./dist/mcp-stdio.js",
+  "types": "./dist/mcp-stdio.d.ts",
+  "files": [
+    "dist/mcp-stdio.d.ts",
+    "dist/mcp-stdio.d.ts.map",
+    "dist/mcp-stdio.js",
+    "dist/mcp-stdio.js.map",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "node ../../scripts/clean-package.mjs .",
+    "lint": "pnpm run build",
+    "prepack": "pnpm run build",
+    "test": "pnpm run build && node ../../scripts/validate-package.mjs ."
+  },
+  "keywords": ["pi", "mcp", "stdio", "shared"],
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "license": "MIT"
+}

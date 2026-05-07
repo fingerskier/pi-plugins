@@ -1,17 +1,13 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "strict": true,
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "types": ["node"]
-  },
-  "include": [
-    "shared/**/*.ts",
-    "plugins/*/extensions/**/*.ts"
+  "files": [],
+  "references": [
+    { "path": "./packages/shared" },
+    { "path": "./packages/pi-build123d" },
+    { "path": "./packages/pi-cron" },
+    { "path": "./packages/pi-dude" },
+    { "path": "./packages/pi-fleet" },
+    { "path": "./packages/pi-kicad" },
+    { "path": "./packages/pi-micropython" },
+    { "path": "./packages/pi-mozart" }
   ]
 }

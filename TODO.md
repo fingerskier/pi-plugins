@@ -1,65 +1,20 @@
 # Monorepo Implementation Follow-up
 
-Convert this repository into a pnpm workspace monorepo for agent/plugin packages.
+Status: implemented in this repository. Remaining work is operational publishing/release cleanup.
 
-Goals:
-- Root-level pnpm workspace
-- Packages live under ./packages/*
-- Existing plugin content under /plugins should be migrated into appropriately named packages
-- Use npm scoped package names: @fingerskier/<name>
-- Preserve existing functionality
-- Ensure packages are independently publishable
-- Share common utilities/types/config where appropriate
+Completed:
+- [x] Root-level pnpm workspace (`pnpm-workspace.yaml`).
+- [x] Packages live under `./packages/*`.
+- [x] Existing Pi plugin content migrated from `./plugins/*` to `./packages/pi-*`.
+- [x] Package names use the `@fingerskier/*` scope, e.g. `@fingerskier/pi-micropython`.
+- [x] Shared MCP stdio bridge moved into `@fingerskier/pi-shared`.
+- [x] MCP-backed plugin packages depend on `@fingerskier/pi-shared` via `workspace:*`.
+- [x] Root scripts exist for `build`, `test`, `lint`, and `clean`.
+- [x] TypeScript project references are configured for the shared package and TS extension packages.
+- [x] Marketplace and README docs use npm install targets such as `pi install npm:@fingerskier/pi-micropython`.
 
-Required structure:
-
-/
-  package.json
-  pnpm-workspace.yaml
-  tsconfig.base.json
-  packages/
-    pi-<plugin-name>/
-    claude-<plugin-name>/
-    codex-<plugin-name>/
-    shared/
-
-Tasks:
-1. Ensure we have a pnpm workspace
-2. Ensure we have root scripts for:
-   - build
-   - test
-   - lint
-   - clean
-3. Ensure each plugin has its own package
-4. Ensure we have proper package.json files
-5. Ensure we have properly configured TypeScript project references if TS is used
-6. Deduplicate shared dependencies/utilities into packages/shared
-7. Ensure local package linking works through workspace references
-8. Verify all packages build successfully
-9. Verify package entrypoints resolve correctly
-10. Add/update README documentation for:
-    - workspace layout
-    - creating new plugins
-    - local development
-    - publishing packages
-
-Validation requirements:
-- `pnpm install` succeeds from repo root
-- `pnpm -r build` succeeds
-- `pnpm -r test` succeeds (if tests exist)
-- No broken imports after migration
-- All package names use @fingerskier/* scope
-- Workspace dependency graph resolves correctly
-- Existing plugin behavior remains functional
-
-Prefer:
-- ESM
-- minimal boilerplate
-- strict TS settings
-- reusable shared tooling/config
-- clean package boundaries
-
-After implementation:
-- provide a concise migration summary
-- list any assumptions or unresolved issues
-- identify packages that may still need manual cleanup
+Remaining before public release:
+- [ ] Publish `@fingerskier/pi-shared` and the desired `@fingerskier/pi-*` packages to npm.
+- [ ] Run live smoke tests for MCP-backed packages after npm publish (`pi install npm:@fingerskier/pi-micropython`, etc.).
+- [ ] Decide whether to add CI for `pnpm install`, `pnpm -r build`, and `pnpm -r test`.
+- [ ] Consider separate Claude/Codex package workspaces only if/when those package targets are needed.

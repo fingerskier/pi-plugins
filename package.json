@@ -1,20 +1,25 @@
 {
-  "name": "@fingerskier/pi-plugins-marketplace",
+  "name": "@fingerskier/pi-plugins-workspace",
   "version": "2026.5.7",
-  "description": "Fingerskier Pi plugin marketplace repository",
+  "description": "Fingerskier Pi plugin package workspace and marketplace catalog",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.30.2",
   "scripts": {
-    "validate": "node scripts/validate-marketplace.mjs",
-    "typecheck": "tsc --noEmit",
-    "test": "npm run validate && npm run typecheck"
+    "build": "pnpm -r --sort build",
+    "clean": "node scripts/clean.mjs && pnpm -r --sort clean",
+    "lint": "pnpm run validate && pnpm run typecheck",
+    "test": "pnpm run validate && pnpm -r --sort test",
+    "typecheck": "tsc -b",
+    "validate": "node scripts/validate-marketplace.mjs"
   },
   "keywords": [
     "pi-package",
     "pi",
     "pi.dev",
     "marketplace",
-    "plugins"
+    "plugins",
+    "workspace"
   ],
   "devDependencies": {
     "@mariozechner/pi-coding-agent": "^0.73.0",
@@ -22,8 +27,16 @@
     "typebox": "^1.1.24",
     "typescript": "^5.7.3"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@google/genai",
+      "koffi",
+      "protobufjs"
+    ]
+  },
   "engines": {
-    "node": ">=20.6.0"
+    "node": ">=20.6.0",
+    "pnpm": ">=10.0.0"
   },
   "license": "MIT"
 }

@@ -1,50 +1,97 @@
-# Fingerskier Pi Plugins
+# Fingerskier Pi Packages
 
-A marketplace-style repository of [Pi](https://pi.dev) packages ported from Fingerskier Claude plugins.
+A pnpm workspace of publishable [Pi](https://pi.dev) packages ported from Fingerskier Claude plugins.
 
-Pi does not currently have a `claude plugin marketplace add` equivalent. This repo uses `marketplace.json` as a catalog, and each directory under `plugins/` is a Pi package with its own `package.json` `pi` manifest.
-
-## Install
-
-Clone the repo, then install a package by local path:
+The end goal is direct npm installation of individual Pi packages, for example:
 
 ```bash
-git clone https://github.com/fingerskier/pi-plugins.git
-cd pi-plugins
-pi install ./plugins/terse
-pi install ./plugins/cron
+pi install npm:@fingerskier/pi-micropython
 ```
 
-For one run without adding to settings:
+> Pi npm package specs use standard npm names. Scoped packages include the `@`, so use `npm:@fingerskier/pi-micropython` rather than `npm:fingerskier/pi-micropython`.
 
-```bash
-pi -e ./plugins/terse
+## Workspace Layout
+
+```text
+packages/
+  shared/             # @fingerskier/pi-shared runtime utilities
+  pi-build123d/       # @fingerskier/pi-build123d
+  pi-cron/            # @fingerskier/pi-cron
+  pi-dude/            # @fingerskier/pi-dude
+  pi-email/           # @fingerskier/pi-email
+  pi-fleet/           # @fingerskier/pi-fleet
+  pi-kicad/           # @fingerskier/pi-kicad
+  pi-micropython/     # @fingerskier/pi-micropython
+  pi-mozart/          # @fingerskier/pi-mozart
+  pi-terse/           # @fingerskier/pi-terse
+  pi-theology/        # @fingerskier/pi-theology
 ```
 
-When individual packages are published to npm, they can also be installed with:
+`marketplace.json` is the catalog. Each `packages/pi-*` directory is an independently publishable Pi package with its own `package.json` `pi` manifest.
 
-```bash
-pi install npm:@fingerskier/pi-plugin-terse
-```
+## Available Packages
 
-## Available Plugins
-
-| Plugin | Resources | Description | Install |
+| Package | Resources | Description | Install |
 |---|---|---|---|
-| [build123d](./plugins/build123d) | extension, skill | CAD modeling with build123d; create, render, inspect, and export 3D models | `pi install ./plugins/build123d` |
-| [cron](./plugins/cron) | extension, skill | Schedule one-time and recurring agent jobs and cron-like prompts | `pi install ./plugins/cron` |
-| [dude](./plugins/dude) | extension, skills | Local semantic memory and issue/spec tracking | `pi install ./plugins/dude` |
-| [email](./plugins/email) | skill | Placeholder skill for IMAP/SMTP email automation design | `pi install ./plugins/email` |
-| [fleet](./plugins/fleet) | extension, skill | AWS service inspection for EC2, S3, Lambda, ECS, CloudWatch, CloudFormation, STS | `pi install ./plugins/fleet` |
-| [kicad](./plugins/kicad) | extension, skill | KiCad project inspection and fabrication workflows | `pi install ./plugins/kicad` |
-| [micropython](./plugins/micropython) | extension, skill | Interact with MicroPython boards over serial | `pi install ./plugins/micropython` |
-| [mozart](./plugins/mozart) | extension, skills | MIDI analysis, editing, and composition | `pi install ./plugins/mozart` |
-| [terse](./plugins/terse) | prompt, skill | Ultra-compressed communication mode | `pi install ./plugins/terse` |
-| [theology](./plugins/theology) | skills | Exegetical theology research skills | `pi install ./plugins/theology` |
+| [@fingerskier/pi-build123d](./packages/pi-build123d) | extension, skill | CAD modeling with build123d; create, render, inspect, and export 3D models | `pi install npm:@fingerskier/pi-build123d` |
+| [@fingerskier/pi-cron](./packages/pi-cron) | extension, skill | Schedule one-time and recurring agent jobs and cron-like prompts | `pi install npm:@fingerskier/pi-cron` |
+| [@fingerskier/pi-dude](./packages/pi-dude) | extension, skills | Local semantic memory and issue/spec tracking | `pi install npm:@fingerskier/pi-dude` |
+| [@fingerskier/pi-email](./packages/pi-email) | skill | Placeholder skill for IMAP/SMTP email automation design | `pi install npm:@fingerskier/pi-email` |
+| [@fingerskier/pi-fleet](./packages/pi-fleet) | extension, skill | AWS service inspection for EC2, S3, Lambda, ECS, CloudWatch, CloudFormation, STS | `pi install npm:@fingerskier/pi-fleet` |
+| [@fingerskier/pi-kicad](./packages/pi-kicad) | extension, skill | KiCad project inspection and fabrication workflows | `pi install npm:@fingerskier/pi-kicad` |
+| [@fingerskier/pi-micropython](./packages/pi-micropython) | extension, skill | Interact with MicroPython boards over serial | `pi install npm:@fingerskier/pi-micropython` |
+| [@fingerskier/pi-mozart](./packages/pi-mozart) | extension, skills | MIDI analysis, editing, and composition | `pi install npm:@fingerskier/pi-mozart` |
+| [@fingerskier/pi-terse](./packages/pi-terse) | prompt, skill | Ultra-compressed communication mode | `pi install npm:@fingerskier/pi-terse` |
+| [@fingerskier/pi-theology](./packages/pi-theology) | skills | Exegetical theology research skills | `pi install npm:@fingerskier/pi-theology` |
+
+For local development before publishing, install by path:
+
+```bash
+pi install ./packages/pi-micropython
+pi -e ./packages/pi-terse
+```
+
+## Development
+
+```bash
+pnpm install
+pnpm run build
+pnpm run test
+pnpm run lint
+```
+
+Useful direct validation commands:
+
+```bash
+pnpm -r build
+pnpm -r test
+node scripts/validate-marketplace.mjs
+```
+
+`pnpm install` links workspace dependencies such as `@fingerskier/pi-shared`. MCP-backed packages import the shared bridge from that package instead of reaching across package boundaries.
+
+## Creating a New Pi Package
+
+1. Create `packages/pi-<name>/package.json` named `@fingerskier/pi-<name>`.
+2. Add `"pi-package"` to `keywords`.
+3. Add a `pi` manifest for `extensions`, `skills`, `prompts`, or `themes`.
+4. For MCP-backed extensions, depend on `@fingerskier/pi-shared` with `"workspace:*"` and import from `@fingerskier/pi-shared/mcp-stdio`.
+5. Add the package to `marketplace.json` with both npm and local install commands.
+6. Run `pnpm install && pnpm run test`.
+
+## Publishing
+
+Publish with pnpm so `workspace:*` dependencies are resolved correctly:
+
+```bash
+pnpm -r --filter @fingerskier/pi-shared --filter './packages/pi-*' publish --access public
+```
+
+Publish `@fingerskier/pi-shared` before or together with packages that depend on it. After publish, users can install packages with `pi install npm:@fingerskier/pi-<name>`.
 
 ## MCP-backed Ports
 
-Pi has no built-in MCP client configuration. MCP-backed ports use `shared/mcp-stdio.ts`, a Pi extension helper that:
+Pi has no built-in MCP client configuration. MCP-backed ports use `@fingerskier/pi-shared/mcp-stdio`, a Pi extension helper that:
 
 1. starts the upstream MCP stdio server,
 2. calls `initialize` and `tools/list`,
@@ -63,21 +110,8 @@ Each MCP-backed package also registers `<prefix>_mcp_status` and a `/<slug>-mcp-
 
 - Node-backed ports (`cron`, `dude`, `fleet`, `mozart`) default to `npx -y <upstream-claude-package>`.
 - Python-backed ports (`build123d`, `micropython`) bundle source and self-bootstrap a venv under `~/.pi/agent/data/<plugin>/venv` on first use.
-- `kicad` bundles upstream KiCad MCP `dist/` and expects dependencies to be installed if using a local clone.
+- `kicad` bundles upstream KiCad MCP `dist/` and has KiCad/runtime dependencies declared in its package.
 - Set `<PLUGIN>_MCP_AUTOLOAD=0` to skip MCP tool discovery during Pi startup and load later via `<prefix>_mcp_status`.
-
-## Catalog
-
-`marketplace.json` lists plugin metadata, upstream Claude source paths, resource types, and local install commands. The schema is documented in `schemas/pi-marketplace.schema.json`.
-
-## Development
-
-```bash
-npm install
-npm test
-```
-
-`npm test` validates the marketplace catalog and typechecks the shared Pi extension bridge plus plugin entrypoints.
 
 ## License
 

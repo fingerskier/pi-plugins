@@ -24,6 +24,17 @@ for (const plugin of marketplace.plugins ?? []) {
   if (packages.has(plugin.package)) fail(`duplicate package ${plugin.package}`);
   packages.add(plugin.package);
 
+  const expectedPath = `packages/pi-${plugin.name}`;
+  const expectedPackage = `@fingerskier/pi-${plugin.name}`;
+  if (plugin.path !== expectedPath) fail(`${plugin.name}: path must be ${expectedPath}`);
+  if (plugin.package !== expectedPackage) fail(`${plugin.name}: package must be ${expectedPackage}`);
+  if (plugin.pi?.install !== `pi install npm:${plugin.package}`) {
+    fail(`${plugin.name}: pi.install must be pi install npm:${plugin.package}`);
+  }
+  if (plugin.pi?.localInstall !== `pi install ./${plugin.path}`) {
+    fail(`${plugin.name}: pi.localInstall must be pi install ./${plugin.path}`);
+  }
+
   const pluginDir = join(root, plugin.path);
   if (!existsSync(pluginDir)) fail(`${plugin.name}: path does not exist: ${plugin.path}`);
   const packagePath = join(pluginDir, "package.json");
@@ -35,6 +46,7 @@ for (const plugin of marketplace.plugins ?? []) {
   if (pkg.name !== plugin.package) fail(`${plugin.name}: package name mismatch (${pkg.name} !== ${plugin.package})`);
   if (!pkg.keywords?.includes("pi-package")) fail(`${plugin.name}: package.json keywords must include pi-package`);
   if (!pkg.pi) fail(`${plugin.name}: package.json missing pi manifest`);
+  if (!pkg.publishConfig || pkg.publishConfig.access !== "public") fail(`${plugin.name}: package.json missing publishConfig.access=public`);
 
   for (const [resourceKey, resourceType] of [["extensions", "extension"], ["skills", "skill"], ["prompts", "prompt"], ["themes", "theme"]]) {
     const resources = pkg.pi?.[resourceKey] ?? [];
@@ -48,6 +60,8 @@ for (const plugin of marketplace.plugins ?? []) {
 
   if (!existsSync(join(pluginDir, "README.md"))) fail(`${plugin.name}: missing README.md`);
 }
+
+if (!existsSync(join(root, "packages", "shared", "package.json"))) fail("missing packages/shared package");
 
 if (!process.exitCode) {
   console.log(`Validated ${marketplace.plugins.length} Pi marketplace plugin entries.`);
