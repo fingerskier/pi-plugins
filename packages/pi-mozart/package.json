@@ -1,6 +1,6 @@
 {
   "name": "@fingerskier/pi-mozart",
-  "version": "2026.2.15",
+  "version": "2026.5.7",
   "description": "Mozart MIDI plugin for Pi, bridged from mozart-claude-plugin MCP",
   "type": "module",
   "keywords": [
@@ -38,6 +38,6 @@
     "clean": "node ../../scripts/clean-package.mjs ."
   },
   "dependencies": {
-    "@fingerskier/pi-shared": "workspace:*"
+    "@fingerskier/pi-shared": "2026.5.7"
   }
 }

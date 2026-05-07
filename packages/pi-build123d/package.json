@@ -1,6 +1,6 @@
 {
   "name": "@fingerskier/pi-build123d",
-  "version": "2026.3.10",
+  "version": "2026.5.7",
   "description": "build123d CAD MCP plugin for Pi with a self-bootstrapping Python server",
   "type": "module",
   "keywords": [
@@ -45,6 +45,6 @@
     "clean": "node ../../scripts/clean-package.mjs ."
   },
   "dependencies": {
-    "@fingerskier/pi-shared": "workspace:*"
+    "@fingerskier/pi-shared": "2026.5.7"
   }
 }

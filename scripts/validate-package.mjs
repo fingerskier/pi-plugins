@@ -1,9 +1,12 @@
 import { existsSync, readFileSync } from "node:fs";
-import { basename, join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const packageDir = resolve(process.argv[2] ?? ".");
 const packagePath = join(packageDir, "package.json");
 const relativeName = basename(packageDir);
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const sharedPackage = JSON.parse(readFileSync(join(root, "packages", "shared", "package.json"), "utf8"));
 
 function fail(message) {
   console.error(`validate-package: ${relativeName}: ${message}`);
@@ -40,8 +43,11 @@ if (relativeName === "shared") {
     }
   }
 
-  if ((pkg.pi?.extensions ?? []).length && pkg.dependencies?.["@fingerskier/pi-shared"] !== "workspace:*") {
-    fail("extension package must depend on @fingerskier/pi-shared via workspace:*");
+  if ((pkg.pi?.extensions ?? []).length) {
+    const sharedDependency = pkg.dependencies?.["@fingerskier/pi-shared"];
+    if (sharedDependency !== sharedPackage.version) {
+      fail(`extension package must depend on @fingerskier/pi-shared@${sharedPackage.version} without workspace: protocol`);
+    }
   }
 
   for (const rel of pkg.files ?? []) {

@@ -24,19 +24,19 @@ importers:
   packages/pi-build123d:
     dependencies:
       '@fingerskier/pi-shared':
-        specifier: workspace:*
+        specifier: 2026.5.7
         version: link:../shared
 
   packages/pi-cron:
     dependencies:
       '@fingerskier/pi-shared':
-        specifier: workspace:*
+        specifier: 2026.5.7
         version: link:../shared
 
   packages/pi-dude:
     dependencies:
       '@fingerskier/pi-shared':
-        specifier: workspace:*
+        specifier: 2026.5.7
         version: link:../shared
 
   packages/pi-email: {}
@@ -44,13 +44,13 @@ importers:
   packages/pi-fleet:
     dependencies:
       '@fingerskier/pi-shared':
-        specifier: workspace:*
+        specifier: 2026.5.7
         version: link:../shared
 
   packages/pi-kicad:
     dependencies:
       '@fingerskier/pi-shared':
-        specifier: workspace:*
+        specifier: 2026.5.7
         version: link:../shared
       '@modelcontextprotocol/sdk':
         specifier: ^1.0.0
@@ -71,13 +71,13 @@ importers:
   packages/pi-micropython:
     dependencies:
       '@fingerskier/pi-shared':
-        specifier: workspace:*
+        specifier: 2026.5.7
         version: link:../shared
 
   packages/pi-mozart:
     dependencies:
       '@fingerskier/pi-shared':
-        specifier: workspace:*
+        specifier: 2026.5.7
         version: link:../shared
 
   packages/pi-terse: {}

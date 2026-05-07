@@ -68,20 +68,20 @@ pnpm -r test
 node scripts/validate-marketplace.mjs
 ```
 
-`pnpm install` links workspace dependencies such as `@fingerskier/pi-shared`. MCP-backed packages import the shared bridge from that package instead of reaching across package boundaries.
+`pnpm install` links workspace dependencies such as `@fingerskier/pi-shared` by package name/version. MCP-backed packages import the shared bridge from that package instead of reaching across package boundaries, and published package manifests avoid the npm-incompatible `workspace:` protocol.
 
 ## Creating a New Pi Package
 
 1. Create `packages/pi-<name>/package.json` named `@fingerskier/pi-<name>`.
 2. Add `"pi-package"` to `keywords`.
 3. Add a `pi` manifest for `extensions`, `skills`, `prompts`, or `themes`.
-4. For MCP-backed extensions, depend on `@fingerskier/pi-shared` with `"workspace:*"` and import from `@fingerskier/pi-shared/mcp-stdio`.
+4. For MCP-backed extensions, depend on the current `@fingerskier/pi-shared` version and import from `@fingerskier/pi-shared/mcp-stdio`.
 5. Add the package to `marketplace.json` with both npm and local install commands.
 6. Run `pnpm install && pnpm run test`.
 
 ## Publishing
 
-Publish with pnpm so `workspace:*` dependencies are resolved correctly:
+Publish with pnpm/npm after confirming package manifests contain no `workspace:` dependencies:
 
 ```bash
 pnpm -r --filter @fingerskier/pi-shared --filter './packages/pi-*' publish --access public

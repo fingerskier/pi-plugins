@@ -1,6 +1,6 @@
 {
   "name": "@fingerskier/pi-dude",
-  "version": "2026.2.21",
+  "version": "2026.5.7",
   "description": "Dude local memory plugin for Pi, bridged from dude-claude-plugin MCP",
   "type": "module",
   "keywords": [
@@ -38,6 +38,6 @@
     "clean": "node ../../scripts/clean-package.mjs ."
   },
   "dependencies": {
-    "@fingerskier/pi-shared": "workspace:*"
+    "@fingerskier/pi-shared": "2026.5.7"
   }
 }

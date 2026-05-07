@@ -1,6 +1,6 @@
 {
   "name": "@fingerskier/pi-micropython",
-  "version": "2026.4.27",
+  "version": "2026.5.7",
   "description": "MicroPython device MCP plugin for Pi with a self-bootstrapping Python server",
   "type": "module",
   "keywords": [
@@ -43,6 +43,6 @@
     "clean": "node ../../scripts/clean-package.mjs ."
   },
   "dependencies": {
-    "@fingerskier/pi-shared": "workspace:*"
+    "@fingerskier/pi-shared": "2026.5.7"
   }
 }

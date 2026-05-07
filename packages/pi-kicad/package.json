@@ -1,6 +1,6 @@
 {
   "name": "@fingerskier/pi-kicad",
-  "version": "0.1.0",
+  "version": "2026.5.7",
   "description": "KiCad MCP plugin for Pi",
   "type": "module",
   "keywords": [
@@ -20,7 +20,7 @@
     ]
   },
   "dependencies": {
-    "@fingerskier/pi-shared": "workspace:*",
+    "@fingerskier/pi-shared": "2026.5.7",
     "@modelcontextprotocol/sdk": "^1.0.0",
     "execa": "^9.0.0",
     "koffi": "^2.15.2",

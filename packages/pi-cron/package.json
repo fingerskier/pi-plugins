@@ -1,6 +1,6 @@
 {
   "name": "@fingerskier/pi-cron",
-  "version": "2026.2.7",
+  "version": "2026.5.7",
   "description": "Cron scheduler plugin for Pi, bridged from the legacy dex-claude-plugin MCP server",
   "type": "module",
   "keywords": [
@@ -38,6 +38,6 @@
     "clean": "node ../../scripts/clean-package.mjs ."
   },
   "dependencies": {
-    "@fingerskier/pi-shared": "workspace:*"
+    "@fingerskier/pi-shared": "2026.5.7"
   }
 }
