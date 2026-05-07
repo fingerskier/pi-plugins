@@ -1,0 +1,29 @@
+{
+  "name": "@fingerskier/pi-plugins-marketplace",
+  "version": "2026.5.7",
+  "description": "Fingerskier Pi plugin marketplace repository",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-marketplace.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run validate && npm run typecheck"
+  },
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi.dev",
+    "marketplace",
+    "plugins"
+  ],
+  "devDependencies": {
+    "@mariozechner/pi-coding-agent": "^0.73.0",
+    "@types/node": "^24.3.0",
+    "typebox": "^1.1.24",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "license": "MIT"
+}

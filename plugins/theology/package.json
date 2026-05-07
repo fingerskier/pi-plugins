@@ -1,0 +1,13 @@
+{
+  "name": "@fingerskier/pi-plugin-theology",
+  "version": "2026.5.7",
+  "description": "Exegetical theology research skills for Pi",
+  "type": "module",
+  "keywords": ["pi-package", "pi", "theology", "bible", "exegesis", "skills"],
+  "pi": {
+    "skills": ["./skills"]
+  },
+  "files": ["skills", "README.md"],
+  "engines": { "node": ">=20.6.0" },
+  "license": "MIT"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@fingerskier/pi-plugin-kicad-buddy",
+  "version": "0.1.0",
+  "description": "KiCad Buddy MCP plugin for Pi",
+  "type": "module",
+  "keywords": ["pi-package", "pi", "kicad", "pcb", "eda", "mcp"],
+  "pi": {
+    "extensions": ["./extensions/kicad-buddy.ts"],
+    "skills": ["./skills"]
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "execa": "^9.0.0",
+    "koffi": "^2.15.2",
+    "protobufjs": "^8.0.0",
+    "zod": "^3.23.0"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "files": ["dist", "docs", "extensions", "proto", "skills", "README.md", "README.upstream.md"],
+  "engines": { "node": ">=20.6.0" },
+  "license": "MIT"
+}

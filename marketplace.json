@@ -1,0 +1,208 @@
+{
+  "$schema": "./schemas/pi-marketplace.schema.json",
+  "name": "fingerskier-pi-plugins",
+  "description": "Pi package ports of Fingerskier Claude plugins",
+  "owner": {
+    "name": "Fingerskier",
+    "email": "fingerskier@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "build123d",
+      "package": "@fingerskier/pi-plugin-build123d",
+      "path": "plugins/build123d",
+      "description": "CAD modeling with build123d — create, inspect, render, and export parametric 3D models using Python.",
+      "category": "productivity",
+      "status": "ported",
+      "keywords": ["cad", "3d", "build123d", "mcp", "python"],
+      "pi": {
+        "install": "pi install ./plugins/build123d",
+        "resources": ["extension", "skill"],
+        "toolPrefix": "build123d"
+      },
+      "upstream": {
+        "type": "claude-plugin",
+        "path": "../Claude/build123d-claude-plugin",
+        "url": "https://github.com/fingerskier/build123d-claude-plugin",
+        "version": "2026.3.10"
+      }
+    },
+    {
+      "name": "dex",
+      "package": "@fingerskier/pi-plugin-dex",
+      "path": "plugins/dex",
+      "description": "Scheduler for recurring agent jobs and cron-like prompts.",
+      "category": "productivity",
+      "status": "ported",
+      "keywords": ["scheduler", "cron", "automation", "mcp"],
+      "pi": {
+        "install": "pi install ./plugins/dex",
+        "resources": ["extension", "skill"],
+        "toolPrefix": "dex"
+      },
+      "upstream": {
+        "type": "claude-plugin",
+        "path": "../Claude/dex-claude-plugin",
+        "url": "https://github.com/fingerskier/dex-claude-plugin",
+        "version": "2026.2.7"
+      }
+    },
+    {
+      "name": "dude",
+      "package": "@fingerskier/pi-plugin-dude",
+      "path": "plugins/dude",
+      "description": "Local semantic memory and issue/spec tracking with Pi-prefixed MCP tools and Agent Skills.",
+      "category": "productivity",
+      "status": "ported",
+      "keywords": ["memory", "rag", "issues", "specifications", "mcp"],
+      "pi": {
+        "install": "pi install ./plugins/dude",
+        "resources": ["extension", "skill"],
+        "toolPrefix": "dude"
+      },
+      "upstream": {
+        "type": "claude-plugin",
+        "path": "../Claude/dude-claude-plugin",
+        "url": "https://github.com/fingerskier/dude-claude-plugin",
+        "version": "2026.2.21"
+      }
+    },
+    {
+      "name": "email",
+      "package": "@fingerskier/pi-plugin-email",
+      "path": "plugins/email",
+      "description": "Pi skill placeholder for the legacy IMAP/SMTP email extension concept.",
+      "category": "productivity",
+      "status": "placeholder",
+      "keywords": ["email", "imap", "smtp", "skills"],
+      "pi": {
+        "install": "pi install ./plugins/email",
+        "resources": ["skill"]
+      },
+      "upstream": {
+        "type": "claude-extension-notes",
+        "path": "../Claude/claude-email-extension",
+        "url": "https://github.com/fingerskier/claude-email-extension",
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "fleet",
+      "package": "@fingerskier/pi-plugin-fleet",
+      "path": "plugins/fleet",
+      "description": "AWS services monitor for EC2, S3, Lambda, ECS, CloudWatch, CloudFormation, and STS.",
+      "category": "cloud",
+      "status": "ported",
+      "keywords": ["aws", "cloud", "ec2", "s3", "lambda", "mcp"],
+      "pi": {
+        "install": "pi install ./plugins/fleet",
+        "resources": ["extension", "skill"],
+        "toolPrefix": "fleet"
+      },
+      "upstream": {
+        "type": "claude-plugin",
+        "path": "../Claude/fleet-claude-plugin",
+        "url": "https://github.com/fingerskier/fleet-claude-plugin",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "name": "kicad-buddy",
+      "package": "@fingerskier/pi-plugin-kicad-buddy",
+      "path": "plugins/kicad-buddy",
+      "description": "KiCad MCP service for schematic/PCB inspection, fabrication outputs, plots, models, footprints, and symbols.",
+      "category": "productivity",
+      "status": "ported",
+      "keywords": ["kicad", "pcb", "eda", "mcp"],
+      "pi": {
+        "install": "pi install ./plugins/kicad-buddy",
+        "resources": ["extension", "skill"],
+        "toolPrefix": "kicad"
+      },
+      "upstream": {
+        "type": "mcp-service",
+        "path": "../Claude/kicad_buddy",
+        "url": "https://github.com/fingerskier/kicad_buddy",
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "micropython",
+      "package": "@fingerskier/pi-plugin-micropython",
+      "path": "plugins/micropython",
+      "description": "Interact with MicroPython devices over USB serial: connect, sync files, run code, and backup/restore images.",
+      "category": "hardware",
+      "status": "ported",
+      "keywords": ["micropython", "embedded", "serial", "hardware", "mcp"],
+      "pi": {
+        "install": "pi install ./plugins/micropython",
+        "resources": ["extension", "skill"],
+        "toolPrefix": "micropython"
+      },
+      "upstream": {
+        "type": "claude-plugin",
+        "path": "../Claude/micropython-claude-plugin",
+        "url": "https://github.com/fingerskier/micropython-claude-plugin",
+        "version": "2026.4.27"
+      }
+    },
+    {
+      "name": "mozart",
+      "package": "@fingerskier/pi-plugin-mozart",
+      "path": "plugins/mozart",
+      "description": "MIDI analysis, editing, and composition with time-signature and tempo-aware tools.",
+      "category": "productivity",
+      "status": "ported",
+      "keywords": ["midi", "music", "composition", "mcp"],
+      "pi": {
+        "install": "pi install ./plugins/mozart",
+        "resources": ["extension", "skill"],
+        "toolPrefix": "mozart"
+      },
+      "upstream": {
+        "type": "claude-plugin",
+        "path": "../Claude/mozart-claude-plugin",
+        "url": "https://github.com/fingerskier/mozart-claude-plugin",
+        "version": "2026.2.15"
+      }
+    },
+    {
+      "name": "terse",
+      "package": "@fingerskier/pi-plugin-terse",
+      "path": "plugins/terse",
+      "description": "Ultra-compressed caveman-voiced communication mode that cuts filler while preserving technical accuracy.",
+      "category": "productivity",
+      "status": "ported",
+      "keywords": ["tokens", "compression", "brevity", "skill", "prompt"],
+      "pi": {
+        "install": "pi install ./plugins/terse",
+        "resources": ["skill", "prompt"]
+      },
+      "upstream": {
+        "type": "claude-plugin",
+        "path": "../Claude/terse-claude-plugin",
+        "url": "https://github.com/fingerskier/terse-claude-plugin",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "theology",
+      "package": "@fingerskier/pi-plugin-theology",
+      "path": "plugins/theology",
+      "description": "Exegetical theology research skills: historian, linguist, author, theologian, disciple, shepherd, and research.",
+      "category": "productivity",
+      "status": "ported",
+      "keywords": ["theology", "bible", "exegesis", "skills"],
+      "pi": {
+        "install": "pi install ./plugins/theology",
+        "resources": ["skill"]
+      },
+      "upstream": {
+        "type": "claude-plugin",
+        "path": "../Claude/theology-claude-plugin",
+        "url": "https://github.com/fingerskier/theology-claude-plugin",
+        "version": "2026.5.7"
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "@fingerskier/pi-plugin-email",
+  "version": "0.1.0",
+  "description": "Planning skill for the legacy Claude email extension concept, ported as a Pi skill placeholder",
+  "type": "module",
+  "keywords": ["pi-package", "pi", "email", "imap", "smtp", "skills"],
+  "pi": {
+    "skills": ["./skills"]
+  },
+  "files": ["skills", "README.md"],
+  "engines": { "node": ">=20.6.0" },
+  "license": "MIT"
+}

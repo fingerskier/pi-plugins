@@ -1,0 +1,18 @@
+{
+  "name": "@fingerskier/pi-plugin-micropython",
+  "version": "2026.4.27",
+  "description": "MicroPython device MCP plugin for Pi with a self-bootstrapping Python server",
+  "type": "module",
+  "keywords": ["pi-package", "pi", "micropython", "embedded", "serial", "hardware", "mcp"],
+  "pi": {
+    "extensions": ["./extensions/micropython.ts"],
+    "skills": ["./skills"]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "files": ["bin", "extensions", "skills", "src", "pyproject.toml", "README.md", "README.upstream.md"],
+  "engines": { "node": ">=20.6.0" },
+  "license": "MIT"
+}

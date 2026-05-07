@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fingerskier/pi-plugins/schemas/pi-marketplace.schema.json",
+  "title": "Pi Plugin Marketplace Catalog",
+  "type": "object",
+  "required": ["name", "description", "owner", "plugins"],
+  "properties": {
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "owner": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "package", "path", "description", "category", "status", "pi", "upstream"],
+        "properties": {
+          "name": { "type": "string" },
+          "package": { "type": "string" },
+          "path": { "type": "string" },
+          "description": { "type": "string" },
+          "category": { "type": "string" },
+          "status": { "enum": ["ported", "partial", "placeholder"] },
+          "keywords": { "type": "array", "items": { "type": "string" } },
+          "pi": {
+            "type": "object",
+            "required": ["install", "resources"],
+            "properties": {
+              "install": { "type": "string" },
+              "resources": { "type": "array", "items": { "enum": ["extension", "skill", "prompt", "theme"] } },
+              "toolPrefix": { "type": "string" }
+            },
+            "additionalProperties": true
+          },
+          "upstream": {
+            "type": "object",
+            "required": ["type", "path"],
+            "properties": {
+              "type": { "type": "string" },
+              "path": { "type": "string" },
+              "url": { "type": "string" },
+              "version": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

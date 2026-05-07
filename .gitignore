@@ -1,0 +1,12 @@
+node_modules/
+.pi/
+*.tgz
+npm-debug.log*
+.DS_Store
+cad-output/
+.pytest_cache/
+__pycache__/
+*.pyc
+plugins/*/node_modules/
+plugins/*/.venv/
+plugins/*/dist/*.tsbuildinfo
