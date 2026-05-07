@@ -53,7 +53,7 @@ type PendingRequest = {
 };
 
 export interface McpStdioPluginConfig {
-	/** Stable short id used for status command/tool names, e.g. "dex". */
+	/** Stable short id used for status command/tool names, e.g. "cron". */
 	slug: string;
 	/** Human-readable name for UI/status text. */
 	label: string;
@@ -67,6 +67,10 @@ export interface McpStdioPluginConfig {
 	env?: Record<string, string | undefined>;
 	/** Prefix for Pi tool names. Defaults to slug. */
 	toolPrefix?: string;
+	/** Optional mapper for the MCP tool name segment before applying the Pi prefix. */
+	toolNameMap?: (name: string) => string;
+	/** Optional mapper for text returned by MCP tools before displaying it in Pi. */
+	resultTextMap?: (text: string) => string;
 	/** Set this environment variable to 0/false/off to skip startup tool discovery. */
 	autoloadEnv?: string;
 	/** Startup/list timeout. */
@@ -116,14 +120,17 @@ function contentText(part: Record<string, unknown>): string {
 	return JSON.stringify(part, null, 2);
 }
 
-function toPiContent(content: Array<Record<string, unknown>> | undefined): Array<Record<string, unknown>> {
-	if (!content?.length) return [{ type: "text", text: "(MCP tool returned no content.)" }];
+function toPiContent(
+	content: Array<Record<string, unknown>> | undefined,
+	textMap: (text: string) => string = (text) => text,
+): Array<Record<string, unknown>> {
+	if (!content?.length) return [{ type: "text", text: textMap("(MCP tool returned no content.)") }];
 	return content.map((part) => {
-		if (part.type === "text") return { type: "text", text: contentText(part) };
+		if (part.type === "text") return { type: "text", text: textMap(contentText(part)) };
 		if (part.type === "image" && typeof part.data === "string" && typeof part.mimeType === "string") {
 			return { type: "image", data: part.data, mimeType: part.mimeType };
 		}
-		return { type: "text", text: contentText(part) };
+		return { type: "text", text: textMap(contentText(part)) };
 	});
 }
 
@@ -344,26 +351,30 @@ export function createMcpStdioExtension(config: McpStdioPluginConfig) {
 	return async function mcpStdioPiExtension(pi: ExtensionAPI) {
 		const client = new McpStdioClient(config);
 		const registeredToolNames = new Set<string>();
+		const toolPrefix = config.toolPrefix ?? config.slug;
+		const mappedToolName = (name: string) => config.toolNameMap?.(name) ?? name;
+		const piToolName = (name: string) => prefixedToolName(toolPrefix, mappedToolName(name));
 		let lastLoadError: string | undefined;
 
 		const registerTools = async (signal?: AbortSignal): Promise<McpTool[]> => {
 			const tools = await client.listTools(signal);
 			for (const tool of tools) {
-				const piName = prefixedToolName(config.toolPrefix ?? config.slug, tool.name);
+				const alias = mappedToolName(tool.name);
+				const piName = piToolName(tool.name);
 				if (registeredToolNames.has(piName)) continue;
 				registeredToolNames.add(piName);
 				pi.registerTool({
 					name: piName,
-					label: `${config.label}: ${tool.name}`,
-					description: `${tool.description ?? `${config.label} MCP tool ${tool.name}`}\n\nOriginal MCP tool: ${tool.name}.`,
-					promptSnippet: `${config.label} MCP tool: ${tool.description ?? tool.name}`,
+					label: `${config.label}: ${alias}`,
+					description: `${tool.description ?? `${config.label} MCP tool ${tool.name}`}\n\nPi alias: ${alias}. Original MCP tool: ${tool.name}.`,
+					promptSnippet: `${config.label} MCP tool: ${tool.description ?? alias}`,
 					promptGuidelines: config.promptGuidelines,
 					parameters: normalizeSchema(tool.inputSchema) as never,
 					async execute(_toolCallId, params, signal) {
 						const result = await client.callTool(tool.name, params as Record<string, unknown>, signal);
 						return {
-							content: toPiContent(result.content) as never,
-							details: { mcpServer: config.slug, mcpTool: tool.name, isMcpError: !!result.isError },
+							content: toPiContent(result.content, config.resultTextMap) as never,
+							details: { mcpServer: config.slug, mcpTool: tool.name, piTool: piName, isMcpError: !!result.isError },
 							isError: !!result.isError,
 						} as never;
 					},
@@ -374,7 +385,7 @@ export function createMcpStdioExtension(config: McpStdioPluginConfig) {
 		};
 
 		pi.registerTool({
-			name: prefixedToolName(config.toolPrefix ?? config.slug, "mcp_status"),
+			name: prefixedToolName(toolPrefix, "mcp_status"),
 			label: `${config.label}: MCP Status`,
 			description: `Check, load, or reload the ${config.label} MCP stdio bridge tools.`,
 			parameters: Type.Object({
@@ -385,7 +396,7 @@ export function createMcpStdioExtension(config: McpStdioPluginConfig) {
 				if (input.reload) await client.close();
 				try {
 					const tools = await registerTools(signal);
-					const names = tools.map((tool) => `- ${prefixedToolName(config.toolPrefix ?? config.slug, tool.name)} (MCP: ${tool.name})`).join("\n");
+					const names = tools.map((tool) => `- ${piToolName(tool.name)} (MCP: ${tool.name})`).join("\n");
 					return {
 						content: [{ type: "text", text: `${config.label} MCP bridge running. Registered ${tools.length} tool(s).\n${names || "No MCP tools reported."}` }],
 						details: { mcpServer: config.slug, tools: tools.map((tool) => tool.name) },

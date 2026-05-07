@@ -28,17 +28,17 @@
       }
     },
     {
-      "name": "dex",
-      "package": "@fingerskier/pi-plugin-dex",
-      "path": "plugins/dex",
-      "description": "Scheduler for recurring agent jobs and cron-like prompts.",
+      "name": "cron",
+      "package": "@fingerskier/pi-plugin-cron",
+      "path": "plugins/cron",
+      "description": "Scheduler for one-time and recurring agent jobs and cron-like prompts.",
       "category": "productivity",
       "status": "ported",
       "keywords": ["scheduler", "cron", "automation", "mcp"],
       "pi": {
-        "install": "pi install ./plugins/dex",
+        "install": "pi install ./plugins/cron",
         "resources": ["extension", "skill"],
-        "toolPrefix": "dex"
+        "toolPrefix": "cron"
       },
       "upstream": {
         "type": "claude-plugin",
@@ -107,15 +107,15 @@
       }
     },
     {
-      "name": "kicad-buddy",
-      "package": "@fingerskier/pi-plugin-kicad-buddy",
-      "path": "plugins/kicad-buddy",
+      "name": "kicad",
+      "package": "@fingerskier/pi-plugin-kicad",
+      "path": "plugins/kicad",
       "description": "KiCad MCP service for schematic/PCB inspection, fabrication outputs, plots, models, footprints, and symbols.",
       "category": "productivity",
       "status": "ported",
       "keywords": ["kicad", "pcb", "eda", "mcp"],
       "pi": {
-        "install": "pi install ./plugins/kicad-buddy",
+        "install": "pi install ./plugins/kicad",
         "resources": ["extension", "skill"],
         "toolPrefix": "kicad"
       },

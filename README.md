@@ -12,7 +12,7 @@ Clone the repo, then install a package by local path:
 git clone https://github.com/fingerskier/pi-plugins.git
 cd pi-plugins
 pi install ./plugins/terse
-pi install ./plugins/dex
+pi install ./plugins/cron
 ```
 
 For one run without adding to settings:
@@ -32,11 +32,11 @@ pi install npm:@fingerskier/pi-plugin-terse
 | Plugin | Resources | Description | Install |
 |---|---|---|---|
 | [build123d](./plugins/build123d) | extension, skill | CAD modeling with build123d; create, render, inspect, and export 3D models | `pi install ./plugins/build123d` |
-| [dex](./plugins/dex) | extension, skill | Schedule recurring agent jobs and cron-like prompts | `pi install ./plugins/dex` |
+| [cron](./plugins/cron) | extension, skill | Schedule one-time and recurring agent jobs and cron-like prompts | `pi install ./plugins/cron` |
 | [dude](./plugins/dude) | extension, skills | Local semantic memory and issue/spec tracking | `pi install ./plugins/dude` |
 | [email](./plugins/email) | skill | Placeholder skill for IMAP/SMTP email automation design | `pi install ./plugins/email` |
 | [fleet](./plugins/fleet) | extension, skill | AWS service inspection for EC2, S3, Lambda, ECS, CloudWatch, CloudFormation, STS | `pi install ./plugins/fleet` |
-| [kicad-buddy](./plugins/kicad-buddy) | extension, skill | KiCad project inspection and fabrication workflows | `pi install ./plugins/kicad-buddy` |
+| [kicad](./plugins/kicad) | extension, skill | KiCad project inspection and fabrication workflows | `pi install ./plugins/kicad` |
 | [micropython](./plugins/micropython) | extension, skill | Interact with MicroPython boards over serial | `pi install ./plugins/micropython` |
 | [mozart](./plugins/mozart) | extension, skills | MIDI analysis, editing, and composition | `pi install ./plugins/mozart` |
 | [terse](./plugins/terse) | prompt, skill | Ultra-compressed communication mode | `pi install ./plugins/terse` |
@@ -53,7 +53,7 @@ Pi has no built-in MCP client configuration. MCP-backed ports use `shared/mcp-st
 
 Examples:
 
-- Dex MCP `add_dex_job` becomes Pi tool `dex_add_dex_job`.
+- Cron's legacy Dex MCP `add_dex_job` becomes Pi tool `cron_add_job`.
 - Mozart MCP `load_midi` becomes Pi tool `mozart_load_midi`.
 - build123d MCP `execute_build123d` becomes Pi tool `build123d_execute_build123d`.
 
@@ -61,9 +61,9 @@ Each MCP-backed package also registers `<prefix>_mcp_status` and a `/<slug>-mcp-
 
 ## Runtime Notes
 
-- Node-backed ports (`dex`, `dude`, `fleet`, `mozart`) default to `npx -y <upstream-claude-package>`.
+- Node-backed ports (`cron`, `dude`, `fleet`, `mozart`) default to `npx -y <upstream-claude-package>`.
 - Python-backed ports (`build123d`, `micropython`) bundle source and self-bootstrap a venv under `~/.pi/agent/data/<plugin>/venv` on first use.
-- `kicad-buddy` bundles upstream `dist/` and expects dependencies to be installed if using a local clone.
+- `kicad` bundles upstream KiCad MCP `dist/` and expects dependencies to be installed if using a local clone.
 - Set `<PLUGIN>_MCP_AUTOLOAD=0` to skip MCP tool discovery during Pi startup and load later via `<prefix>_mcp_status`.
 
 ## Catalog

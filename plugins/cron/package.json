@@ -1,11 +1,11 @@
 {
-  "name": "@fingerskier/pi-plugin-dex",
+  "name": "@fingerskier/pi-plugin-cron",
   "version": "2026.2.7",
-  "description": "Dex scheduler plugin for Pi, bridged from dex-claude-plugin MCP",
+  "description": "Cron scheduler plugin for Pi, bridged from the legacy dex-claude-plugin MCP server",
   "type": "module",
-  "keywords": ["pi-package", "pi", "dex", "scheduler", "cron", "mcp"],
+  "keywords": ["pi-package", "pi", "cron", "scheduler", "automation", "mcp"],
   "pi": {
-    "extensions": ["./extensions/dex.ts"],
+    "extensions": ["./extensions/cron.ts"],
     "skills": ["./skills"]
   },
   "peerDependencies": {

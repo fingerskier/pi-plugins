@@ -1,11 +1,11 @@
 ---
-name: kicad-buddy
+name: kicad
 description: Inspect and automate KiCad projects from Pi. Use for schematic/PCB queries, DRC/ERC, fabrication outputs, plots, 3D model export, footprints, symbols, and KiCad IPC or kicad-cli workflows.
 ---
 
-# KiCad Buddy Skill
+# KiCad Skill
 
-Use `kicad_*` Pi tools exposed by this package. They bridge the upstream KiCad Buddy MCP server.
+Use `kicad_*` Pi tools exposed by this package. They bridge the upstream KiCad MCP server.
 
 ## Setup
 

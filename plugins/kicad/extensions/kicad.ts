@@ -4,16 +4,19 @@ import { createMcpStdioExtension, splitArgs } from "../../../shared/mcp-stdio.ts
 
 const pluginRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const localServer = join(pluginRoot, "dist", "index.js");
+const commandOverride = process.env.KICAD_MCP_COMMAND ?? process.env.KICAD_BUDDY_MCP_COMMAND;
+const serverArgs = process.env.KICAD_MCP_ARGS ?? process.env.KICAD_BUDDY_MCP_ARGS;
 
 export default createMcpStdioExtension({
-	slug: "kicad-buddy",
-	label: "KiCad Buddy",
+	slug: "kicad",
+	label: "KiCad",
 	toolPrefix: "kicad",
-	command: process.env.KICAD_BUDDY_MCP_COMMAND ?? process.env.NODE ?? "node",
-	args: process.env.KICAD_BUDDY_MCP_COMMAND ? splitArgs(process.env.KICAD_BUDDY_MCP_ARGS) : [localServer, ...splitArgs(process.env.KICAD_BUDDY_MCP_ARGS)],
-	autoloadEnv: "KICAD_BUDDY_MCP_AUTOLOAD",
+	command: commandOverride ?? process.env.NODE ?? "node",
+	args: commandOverride ? splitArgs(serverArgs) : [localServer, ...splitArgs(serverArgs)],
+	autoloadEnv: "KICAD_MCP_AUTOLOAD",
 	cwd: process.cwd(),
 	env: {
+		KICAD_PLUGIN_ROOT: pluginRoot,
 		KICAD_BUDDY_ROOT: pluginRoot,
 	},
 	promptGuidelines: [

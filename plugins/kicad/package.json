@@ -1,11 +1,11 @@
 {
-  "name": "@fingerskier/pi-plugin-kicad-buddy",
+  "name": "@fingerskier/pi-plugin-kicad",
   "version": "0.1.0",
-  "description": "KiCad Buddy MCP plugin for Pi",
+  "description": "KiCad MCP plugin for Pi",
   "type": "module",
   "keywords": ["pi-package", "pi", "kicad", "pcb", "eda", "mcp"],
   "pi": {
-    "extensions": ["./extensions/kicad-buddy.ts"],
+    "extensions": ["./extensions/kicad.ts"],
     "skills": ["./skills"]
   },
   "dependencies": {
