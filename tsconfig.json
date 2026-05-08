@@ -9,6 +9,7 @@
     { "path": "./packages/pi-fleet" },
     { "path": "./packages/pi-kicad" },
     { "path": "./packages/pi-micropython" },
-    { "path": "./packages/pi-mozart" }
+    { "path": "./packages/pi-mozart" },
+    { "path": "./packages/pi-skidl" }
   ]
 }

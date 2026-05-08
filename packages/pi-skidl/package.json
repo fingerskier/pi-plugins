@@ -1,0 +1,55 @@
+{
+  "name": "@fingerskier/pi-skidl",
+  "version": "2026.5.8",
+  "description": "SKiDL circuit-design MCP plugin for Pi with a self-bootstrapping Python server",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "skidl",
+    "electronics",
+    "schematic",
+    "pcb",
+    "kicad",
+    "eda",
+    "mcp",
+    "python"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/skidl.ts"
+    ],
+    "skills": [
+      "./skills"
+    ],
+    "prompts": [
+      "./prompts"
+    ]
+  },
+  "files": [
+    "bin",
+    "extensions",
+    "skills",
+    "prompts",
+    "src",
+    "pyproject.toml",
+    "README.md",
+    "README.upstream.md"
+  ],
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node ../../scripts/validate-package.mjs .",
+    "lint": "pnpm run build",
+    "clean": "node ../../scripts/clean-package.mjs ."
+  },
+  "dependencies": {
+    "@fingerskier/pi-shared": "2026.5.7"
+  }
+}

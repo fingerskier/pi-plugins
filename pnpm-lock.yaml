@@ -86,6 +86,12 @@ importers:
         specifier: 2026.5.7
         version: link:../shared
 
+  packages/pi-skidl:
+    dependencies:
+      '@fingerskier/pi-shared':
+        specifier: 2026.5.7
+        version: link:../shared
+
   packages/pi-terse: {}
 
   packages/pi-theology: {}

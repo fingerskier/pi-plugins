@@ -271,6 +271,40 @@
       }
     },
     {
+      "name": "skidl",
+      "package": "@fingerskier/pi-skidl",
+      "path": "packages/pi-skidl",
+      "description": "Programmatic electronic schematic design with SKiDL: KiCad library parts, nets, ERC, BOMs, netlists, SVG, and KiCad schematic export.",
+      "category": "hardware",
+      "status": "ported",
+      "keywords": [
+        "skidl",
+        "electronics",
+        "schematic",
+        "pcb",
+        "kicad",
+        "eda",
+        "mcp",
+        "python"
+      ],
+      "pi": {
+        "install": "pi install npm:@fingerskier/pi-skidl",
+        "resources": [
+          "extension",
+          "skill",
+          "prompt"
+        ],
+        "toolPrefix": "skidl",
+        "localInstall": "pi install ./packages/pi-skidl"
+      },
+      "upstream": {
+        "type": "claude-plugin",
+        "path": "../Claude/skidl-claude-plugin",
+        "url": "https://github.com/fingerskier/skidl-claude-plugin",
+        "version": "2026.3.10"
+      }
+    },
+    {
       "name": "terse",
       "package": "@fingerskier/pi-terse",
       "path": "packages/pi-terse",

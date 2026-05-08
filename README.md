@@ -24,6 +24,7 @@ packages/
   pi-kicad/           # @fingerskier/pi-kicad
   pi-micropython/     # @fingerskier/pi-micropython
   pi-mozart/          # @fingerskier/pi-mozart
+  pi-skidl/           # @fingerskier/pi-skidl
   pi-terse/           # @fingerskier/pi-terse
   pi-theology/        # @fingerskier/pi-theology
 ```
@@ -43,6 +44,7 @@ packages/
 | [@fingerskier/pi-kicad](./packages/pi-kicad) | extension, skill | KiCad project inspection and fabrication workflows | `pi install npm:@fingerskier/pi-kicad` |
 | [@fingerskier/pi-micropython](./packages/pi-micropython) | extension, skill | Interact with MicroPython boards over serial | `pi install npm:@fingerskier/pi-micropython` |
 | [@fingerskier/pi-mozart](./packages/pi-mozart) | extension, skills | MIDI analysis, editing, and composition | `pi install npm:@fingerskier/pi-mozart` |
+| [@fingerskier/pi-skidl](./packages/pi-skidl) | extension, skill, prompts | Programmatic electronic schematic design with SKiDL, KiCad libraries, ERC, BOMs, netlists, and schematic exports | `pi install npm:@fingerskier/pi-skidl` |
 | [@fingerskier/pi-terse](./packages/pi-terse) | prompt, skill | Ultra-compressed communication mode | `pi install npm:@fingerskier/pi-terse` |
 | [@fingerskier/pi-theology](./packages/pi-theology) | skills | Exegetical theology research skills | `pi install npm:@fingerskier/pi-theology` |
 
@@ -105,13 +107,14 @@ Examples:
 - Cron's legacy Dex MCP `add_dex_job` becomes Pi tool `cron_add_job`.
 - Mozart MCP `load_midi` becomes Pi tool `mozart_load_midi`.
 - build123d MCP `execute_build123d` becomes Pi tool `build123d_execute_build123d`.
+- SKiDL MCP `create_circuit` becomes Pi tool `skidl_create_circuit`.
 
 Each MCP-backed package also registers `<prefix>_mcp_status` and a `/<slug>-mcp-reload` command for diagnostics/retry.
 
 ## Runtime Notes
 
 - Node-backed ports (`cron`, `dude`, `fleet`, `mozart`) default to `npx -y <upstream-claude-package>`.
-- Python-backed ports (`build123d`, `micropython`) bundle source and self-bootstrap a venv under `~/.pi/agent/data/<plugin>/venv` on first use.
+- Python-backed ports (`build123d`, `micropython`, `skidl`) bundle source and self-bootstrap a venv under `~/.pi/agent/data/<plugin>/venv` on first use.
 - `kicad` bundles upstream KiCad MCP `dist/` and has KiCad/runtime dependencies declared in its package.
 - Set `<PLUGIN>_MCP_AUTOLOAD=0` to skip MCP tool discovery during Pi startup and load later via `<prefix>_mcp_status`.
 
