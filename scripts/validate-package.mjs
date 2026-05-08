@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -13,6 +13,31 @@ function fail(message) {
   process.exitCode = 1;
 }
 
+function collectSourceFiles(path) {
+  if (!existsSync(path)) return [];
+  const stat = statSync(path);
+  if (stat.isFile()) return /\.[cm]?[jt]s$/.test(path) ? [path] : [];
+  if (!stat.isDirectory()) return [];
+  return readdirSync(path, { withFileTypes: true }).flatMap((entry) => collectSourceFiles(join(path, entry.name)));
+}
+
+function dependencyUsesWorkspaceProtocol(pkg) {
+  for (const field of ["dependencies", "devDependencies", "optionalDependencies", "peerDependencies"]) {
+    for (const [name, version] of Object.entries(pkg[field] ?? {})) {
+      if (typeof version === "string" && version.startsWith("workspace:")) {
+        fail(`${field}.${name} must not use workspace: protocol in publishable packages`);
+      }
+    }
+  }
+}
+
+function packageImportsSharedRuntime(pkg) {
+  const extensionPaths = pkg.pi?.extensions ?? [];
+  return extensionPaths
+    .flatMap((rel) => collectSourceFiles(join(packageDir, rel)))
+    .some((path) => readFileSync(path, "utf8").includes("@fingerskier/pi-shared"));
+}
+
 if (!existsSync(packagePath)) {
   fail("missing package.json");
   process.exit();
@@ -21,6 +46,7 @@ if (!existsSync(packagePath)) {
 const pkg = JSON.parse(readFileSync(packagePath, "utf8"));
 if (!pkg.name?.startsWith("@fingerskier/")) fail(`package name must use @fingerskier/* scope (${pkg.name})`);
 if (pkg.private) fail("publishable packages must not be private");
+dependencyUsesWorkspaceProtocol(pkg);
 
 if (relativeName === "shared") {
   if (!existsSync(join(packageDir, "src", "mcp-stdio.ts"))) fail("missing src/mcp-stdio.ts");
@@ -43,10 +69,10 @@ if (relativeName === "shared") {
     }
   }
 
-  if ((pkg.pi?.extensions ?? []).length) {
+  if (packageImportsSharedRuntime(pkg)) {
     const sharedDependency = pkg.dependencies?.["@fingerskier/pi-shared"];
     if (sharedDependency !== sharedPackage.version) {
-      fail(`extension package must depend on @fingerskier/pi-shared@${sharedPackage.version} without workspace: protocol`);
+      fail(`packages importing @fingerskier/pi-shared must depend on version ${sharedPackage.version} without workspace: protocol`);
     }
   }
 

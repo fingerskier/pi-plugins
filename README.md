@@ -16,6 +16,7 @@ pi install npm:@fingerskier/pi-micropython
 packages/
   shared/             # @fingerskier/pi-shared runtime utilities
   pi-build123d/       # @fingerskier/pi-build123d
+  pi-billing-footer/  # @fingerskier/pi-billing-footer
   pi-cron/            # @fingerskier/pi-cron
   pi-dude/            # @fingerskier/pi-dude
   pi-email/           # @fingerskier/pi-email
@@ -34,6 +35,7 @@ packages/
 | Package | Resources | Description | Install |
 |---|---|---|---|
 | [@fingerskier/pi-build123d](./packages/pi-build123d) | extension, skill | CAD modeling with build123d; create, render, inspect, and export 3D models | `pi install npm:@fingerskier/pi-build123d` |
+| [@fingerskier/pi-billing-footer](./packages/pi-billing-footer) | extension | Portable footer billing display: `$✓` for nominal subscriptions, dollar amounts for API keys/overage | `pi install npm:@fingerskier/pi-billing-footer` |
 | [@fingerskier/pi-cron](./packages/pi-cron) | extension, skill | Schedule one-time and recurring agent jobs and cron-like prompts | `pi install npm:@fingerskier/pi-cron` |
 | [@fingerskier/pi-dude](./packages/pi-dude) | extension, skills | Local semantic memory and issue/spec tracking | `pi install npm:@fingerskier/pi-dude` |
 | [@fingerskier/pi-email](./packages/pi-email) | skill | Placeholder skill for IMAP/SMTP email automation design | `pi install npm:@fingerskier/pi-email` |

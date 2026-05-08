@@ -38,6 +38,34 @@
       }
     },
     {
+      "name": "billing-footer",
+      "package": "@fingerskier/pi-billing-footer",
+      "path": "packages/pi-billing-footer",
+      "description": "Portable Pi footer billing display: green check for nominal subscription usage, dollar costs for API keys and overage.",
+      "category": "productivity",
+      "status": "ported",
+      "keywords": [
+        "footer",
+        "statusbar",
+        "billing",
+        "subscription",
+        "oauth",
+        "cost"
+      ],
+      "pi": {
+        "install": "pi install npm:@fingerskier/pi-billing-footer",
+        "resources": [
+          "extension"
+        ],
+        "localInstall": "pi install ./packages/pi-billing-footer"
+      },
+      "upstream": {
+        "type": "pi-extension",
+        "path": "packages/pi-billing-footer",
+        "version": "2026.5.8"
+      }
+    },
+    {
       "name": "cron",
       "package": "@fingerskier/pi-cron",
       "path": "packages/pi-cron",

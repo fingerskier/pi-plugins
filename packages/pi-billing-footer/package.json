@@ -1,0 +1,40 @@
+{
+  "name": "@fingerskier/pi-billing-footer",
+  "version": "2026.5.8",
+  "description": "Portable Pi footer billing display: green check for nominal subscription usage, dollar costs for API keys and overage",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "footer",
+    "statusbar",
+    "billing",
+    "subscription",
+    "oauth"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/billing-footer.ts"
+    ]
+  },
+  "files": [
+    "extensions",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node ../../scripts/validate-package.mjs .",
+    "lint": "pnpm run build",
+    "clean": "node ../../scripts/clean-package.mjs ."
+  }
+}
