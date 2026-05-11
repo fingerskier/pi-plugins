@@ -14,7 +14,7 @@ pi install ./packages/pi-skidl
 pi -e npm:@fingerskier/pi-skidl
 ```
 
-Host requirements: Python 3.10+ available as `python` (or set `SKIDL_PYTHON`) and KiCad installed for symbol libraries.
+Host requirements: Python 3.10+ available as `python` (or set `SKIDL_PYTHON`) and KiCad installed for symbol libraries. SVG generation also requires `netlistsvg` available on `PATH`.
 
 ## Tools
 
@@ -33,6 +33,16 @@ Run `skidl_mcp_status` in Pi to list loaded tools. Expected tools include:
 - `SKIDL_PYTHON=python3` selects the Python executable.
 - `SKIDL_MCP_COMMAND=/path/to/skidl-mcp` runs an external server instead of the bundled launcher.
 - `SKIDL_MCP_ARGS="..."` passes extra arguments to the launcher or command override.
+
+## Development checks
+
+```bash
+pnpm --filter @fingerskier/pi-skidl run test
+pnpm --filter @fingerskier/pi-skidl run build
+pnpm --filter @fingerskier/pi-skidl pack --dry-run
+```
+
+The package test script runs manifest validation plus the Python pytest suite in an isolated `.venv-test` unless `SKIDL_TEST_PYTHON` is set to an existing interpreter.
 
 ## Skills and Prompts
 

@@ -4,11 +4,21 @@ from __future__ import annotations
 
 import contextlib
 import io
-import sys
 
 from skidl import KICAD, Part, search
 
 from skidl_mcp.circuit_manager import manager
+
+
+_KICAD_ENV_HINT = "KICAD_SYMBOL_DIR/KICAD6_SYMBOL_DIR/KICAD7_SYMBOL_DIR/KICAD8_SYMBOL_DIR/KICAD9_SYMBOL_DIR"
+
+
+def _library_error_message(library: str, error: OSError) -> str:
+    """Return a user-actionable KiCad library loading error."""
+    return (
+        f"Unable to load KiCad library '{library}'. Install KiCad symbol libraries "
+        f"or configure {_KICAD_ENV_HINT}. Original error: {error}"
+    )
 
 
 def add_part(
@@ -64,6 +74,8 @@ def add_part(
             "pins": pins,
             "message": f"Part {assigned_ref} ({name}) added to circuit '{entry.name}'.",
         }
+    except OSError as e:
+        return {"status": "error", "message": _library_error_message(library, e)}
     except (RuntimeError, KeyError, ValueError) as e:
         return {"status": "error", "message": str(e)}
 
@@ -104,6 +116,8 @@ def search_parts(query: str, library: str = "") -> dict:
             "results": results,
             "count": len(results),
         }
+    except OSError as e:
+        return {"status": "error", "message": f"Unable to search KiCad libraries. Configure {_KICAD_ENV_HINT}. Original error: {e}"}
     except (RuntimeError, ValueError) as e:
         return {"status": "error", "message": str(e)}
 

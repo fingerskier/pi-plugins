@@ -16,8 +16,8 @@ import tempfile
 from pathlib import Path
 
 
-def _run_import_in_temp_cwd(import_target: str) -> Path:
-    """Run ``python -c "import <target>"`` in an isolated CWD and return it."""
+def _run_import_in_temp_cwd(import_target: str) -> list[str]:
+    """Run ``python -c "import <target>"`` in an isolated CWD and return its listing."""
     with tempfile.TemporaryDirectory(prefix="skidl-pi-test-") as td:
         cwd = Path(td)
         env = os.environ.copy()
@@ -38,8 +38,7 @@ def _run_import_in_temp_cwd(import_target: str) -> Path:
             f"STDERR:\n{result.stderr}"
         )
         # Capture the directory listing before the temp dir is cleaned up.
-        leaked = sorted(p.name for p in cwd.iterdir())
-        return leaked  # type: ignore[return-value]
+        return sorted(p.name for p in cwd.iterdir())
 
 
 def test_importing_skidl_mcp_server_leaves_cwd_clean() -> None:

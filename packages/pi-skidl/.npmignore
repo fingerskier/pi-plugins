@@ -1,4 +1,7 @@
-__pycache__/
-*.py[cod]
+**/__pycache__/**
+**/*.py[cod]
+**/.pytest_cache/**
 .pytest_cache/
 .venv/
+.venv-test/
+*.tgz

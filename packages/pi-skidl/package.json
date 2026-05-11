@@ -1,6 +1,6 @@
 {
   "name": "@fingerskier/pi-skidl",
-  "version": "2026.5.11",
+  "version": "2026.5.12",
   "description": "SKiDL circuit-design MCP plugin for Pi with a self-bootstrapping Python server",
   "type": "module",
   "keywords": [
@@ -31,6 +31,7 @@
     "extensions",
     "skills",
     "prompts",
+    "scripts/run-python-tests.py",
     "src",
     "pyproject.toml",
     "README.md",
@@ -45,7 +46,9 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json --noEmit",
-    "test": "node ../../scripts/validate-package.mjs .",
+    "test": "pnpm run test:manifest && pnpm run test:python",
+    "test:manifest": "node ../../scripts/validate-package.mjs .",
+    "test:python": "python scripts/run-python-tests.py",
     "lint": "pnpm run build",
     "clean": "node ../../scripts/clean-package.mjs ."
   },

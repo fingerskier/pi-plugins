@@ -23,6 +23,6 @@ from skidl.logger import stop_log_file_output as _stop_log_file_output
 # the current working directory.
 _stop_log_file_output()
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 __all__ = ["__version__"]

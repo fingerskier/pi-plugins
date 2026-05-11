@@ -5,10 +5,50 @@ from __future__ import annotations
 import csv
 import io
 import json
-import os
+import re
 import tempfile
+import time
+from pathlib import Path
 
 from skidl_mcp.circuit_manager import manager
+
+
+_SAFE_STEM_RE = re.compile(r"[^A-Za-z0-9_.-]+")
+
+
+def _safe_file_stem(name: str, fallback: str = "skidl") -> str:
+    """Return a filesystem-safe stem suitable for SKiDL output basenames."""
+    stem = _SAFE_STEM_RE.sub("_", str(name or "")).strip("._-")
+    return stem or fallback
+
+
+def _wait_for_stable_file(path: Path, timeout_s: float = 10.0, poll_s: float = 0.1) -> None:
+    """Wait for an asynchronously-created output file to exist and stop growing."""
+    deadline = time.monotonic() + timeout_s
+    previous_size: int | None = None
+    stable_count = 0
+
+    while time.monotonic() < deadline:
+        if path.exists():
+            size = path.stat().st_size
+            if size > 0 and size == previous_size:
+                stable_count += 1
+                if stable_count >= 2:
+                    return
+            else:
+                stable_count = 0
+            previous_size = size
+        time.sleep(poll_s)
+
+    raise TimeoutError(f"Timed out waiting for generated file: {path}")
+
+
+def _read_text(path: Path) -> str:
+    """Read UTF-8 text with a pragmatic fallback for generated EDA files."""
+    try:
+        return path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        return path.read_text(errors="replace")
 
 
 def generate_netlist() -> dict:
@@ -26,15 +66,17 @@ def generate_netlist() -> dict:
             return {"status": "error", "message": "Circuit has no parts. Add parts before generating a netlist."}
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".net", delete=False) as f:
-            tmp_path = f.name
+            tmp_path = Path(f.name)
 
         try:
-            entry.circuit.generate_netlist(file_=tmp_path)
-            with open(tmp_path, "r") as f:
-                netlist_content = f.read()
+            # SKiDL's default do_backup=True writes skidl_sklib.py into the
+            # process CWD. The plugin returns generated content directly, so
+            # no backup library side-effect is needed here.
+            entry.circuit.generate_netlist(file_=str(tmp_path), do_backup=False)
+            netlist_content = _read_text(tmp_path)
         finally:
-            if os.path.exists(tmp_path):
-                os.unlink(tmp_path)
+            if tmp_path.exists():
+                tmp_path.unlink()
 
         return {
             "status": "ok",
@@ -60,16 +102,34 @@ def generate_svg() -> dict:
         if not entry.parts:
             return {"status": "error", "message": "Circuit has no parts. Add parts before generating a schematic."}
 
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".svg", delete=False) as f:
-            tmp_path = f.name
+        with tempfile.TemporaryDirectory(prefix="skidl-svg-") as td:
+            basename = Path(td) / _safe_file_stem(entry.name, "schematic")
+            svg_path = Path(str(basename) + ".svg")
 
-        try:
-            entry.circuit.generate_svg(file_=tmp_path)
-            with open(tmp_path, "r") as f:
-                svg_content = f.read()
-        finally:
-            if os.path.exists(tmp_path):
-                os.unlink(tmp_path)
+            try:
+                # SKiDL generate_svg(file_=...) expects a basename, not the
+                # final .svg path. It writes <basename>.json,
+                # <basename>_skin.svg, and launches netlistsvg to create
+                # <basename>.svg asynchronously.
+                entry.circuit.generate_svg(file_=str(basename))
+                _wait_for_stable_file(svg_path)
+            except FileNotFoundError as e:
+                return {
+                    "status": "error",
+                    "message": (
+                        "SVG generation requires the netlistsvg executable to be installed "
+                        f"and on PATH. Original error: {e}"
+                    ),
+                }
+            except TimeoutError as e:
+                return {
+                    "status": "error",
+                    "message": (
+                        f"{e}. Ensure netlistsvg is installed and that the circuit can be rendered."
+                    ),
+                }
+
+            svg_content = _read_text(svg_path)
 
         return {
             "status": "ok",
@@ -77,7 +137,7 @@ def generate_svg() -> dict:
             "content": svg_content,
             "message": f"SVG schematic generated for circuit '{entry.name}'.",
         }
-    except (RuntimeError, FileNotFoundError, OSError) as e:
+    except (RuntimeError, OSError) as e:
         return {"status": "error", "message": str(e)}
 
 
@@ -168,16 +228,25 @@ def generate_kicad_schematic() -> dict:
         if not entry.parts:
             return {"status": "error", "message": "Circuit has no parts. Add parts before generating a schematic."}
 
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".kicad_sch", delete=False) as f:
-            tmp_path = f.name
+        with tempfile.TemporaryDirectory(prefix="skidl-kicad-sch-") as td:
+            top_name = _safe_file_stem(entry.name, "schematic")
+            expected_path = Path(td) / f"{top_name}.kicad_sch"
 
-        try:
-            entry.circuit.generate_schematic(file_=tmp_path)
-            with open(tmp_path, "r") as f:
-                content = f.read()
-        finally:
-            if os.path.exists(tmp_path):
-                os.unlink(tmp_path)
+            # SKiDL generate_schematic() forwards kwargs to KiCad's generator,
+            # which expects filepath/top_name rather than file_. Passing file_
+            # is ignored and causes default skidl.kicad_sch CWD pollution.
+            entry.circuit.generate_schematic(filepath=td, top_name=top_name)
+
+            if expected_path.exists():
+                content = _read_text(expected_path)
+            else:
+                generated = sorted(Path(td).glob("*.kicad_sch"))
+                if not generated:
+                    return {
+                        "status": "error",
+                        "message": f"KiCad schematic generation did not produce a .kicad_sch file in {td}.",
+                    }
+                content = _read_text(generated[0])
 
         return {
             "status": "ok",
