@@ -1,0 +1,24 @@
+# Python build/test artifacts.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.venv-test/
+build/
+dist/
+*.egg-info/
+
+# npm/package artifacts.
+node_modules/
+*.tgz
+
+# SKiDL default side-effect/output files that should not be committed.
+skidl*.log
+skidl*.erc
+skidl_sklib.py
+skidl.net
+skidl.xml
+skidl.json
+skidl.svg
+skidl_skin.svg
+skidl.kicad_sch
