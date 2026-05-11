@@ -1,6 +1,6 @@
 {
   "name": "@fingerskier/pi-skidl",
-  "version": "2026.5.8",
+  "version": "2026.5.11",
   "description": "SKiDL circuit-design MCP plugin for Pi with a self-bootstrapping Python server",
   "type": "module",
   "keywords": [
