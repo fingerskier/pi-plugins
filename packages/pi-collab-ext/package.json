@@ -1,0 +1,39 @@
+{
+  "name": "@fingerskier/pi-collab-ext",
+  "version": "2026.5.12",
+  "description": "Sequential multi-model collaboration workflows for Pi",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "collaboration",
+    "multi-model",
+    "workflow",
+    "review"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/collab.ts"
+    ]
+  },
+  "files": [
+    "extensions",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test --experimental-strip-types test/*.test.mjs && node ../../scripts/validate-package.mjs .",
+    "lint": "pnpm run build",
+    "clean": "node ../../scripts/clean-package.mjs ."
+  }
+}

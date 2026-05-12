@@ -66,6 +66,33 @@
       }
     },
     {
+      "name": "collab-ext",
+      "package": "@fingerskier/pi-collab-ext",
+      "path": "packages/pi-collab-ext",
+      "description": "Sequential multi-model collaboration workflows that switch models for review, implementation, and cleanup steps.",
+      "category": "productivity",
+      "status": "ported",
+      "keywords": [
+        "collaboration",
+        "multi-model",
+        "workflow",
+        "review",
+        "automation"
+      ],
+      "pi": {
+        "install": "pi install npm:@fingerskier/pi-collab-ext",
+        "resources": [
+          "extension"
+        ],
+        "localInstall": "pi install ./packages/pi-collab-ext"
+      },
+      "upstream": {
+        "type": "pi-extension",
+        "path": "packages/pi-collab-ext",
+        "version": "2026.5.12"
+      }
+    },
+    {
       "name": "cron",
       "package": "@fingerskier/pi-cron",
       "path": "packages/pi-cron",

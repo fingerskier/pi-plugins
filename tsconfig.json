@@ -4,6 +4,7 @@
     { "path": "./packages/shared" },
     { "path": "./packages/pi-build123d" },
     { "path": "./packages/pi-billing-footer" },
+    { "path": "./packages/pi-collab-ext" },
     { "path": "./packages/pi-cron" },
     { "path": "./packages/pi-dude" },
     { "path": "./packages/pi-fleet" },
