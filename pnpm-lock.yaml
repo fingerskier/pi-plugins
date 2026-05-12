@@ -33,6 +33,12 @@ importers:
         specifier: 2026.5.7
         version: link:../shared
 
+  packages/pi-collab-ext:
+    dependencies:
+      '@mariozechner/pi-coding-agent':
+        specifier: '*'
+        version: 0.73.1(@modelcontextprotocol/sdk@1.29.0(zod@3.25.76))(ws@8.20.0)(zod@3.25.76)
+
   packages/pi-cron:
     dependencies:
       '@fingerskier/pi-shared':
